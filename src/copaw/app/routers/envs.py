@@ -2,6 +2,7 @@
 """API endpoints for environment variable management."""
 from __future__ import annotations
 
+import re
 from typing import Dict, List
 
 from fastapi import APIRouter, HTTPException
@@ -10,6 +11,25 @@ from pydantic import BaseModel, Field
 from ...envs import load_envs, save_envs, delete_env_var
 
 router = APIRouter(prefix="/envs", tags=["envs"])
+
+
+# ------------------------------------------------------------------
+# Sensitive key masking
+# ------------------------------------------------------------------
+
+_SENSITIVE_PATTERNS = re.compile(
+    r"(API_KEY|SECRET|TOKEN|PASSWORD|CREDENTIAL|AUTH)",
+    re.IGNORECASE,
+)
+
+
+def _mask_value(key: str, value: str) -> str:
+    """Mask values of sensitive environment variables."""
+    if _SENSITIVE_PATTERNS.search(key) and value:
+        # Show first 4 chars + masked remainder
+        visible = min(4, len(value))
+        return value[:visible] + "******"
+    return value
 
 
 # ------------------------------------------------------------------
@@ -35,9 +55,12 @@ class EnvVar(BaseModel):
     summary="List all environment variables",
 )
 async def list_envs() -> List[EnvVar]:
-    """Return all configured env vars."""
+    """Return all configured env vars (sensitive values are masked)."""
     envs = load_envs()
-    return [EnvVar(key=k, value=v) for k, v in sorted(envs.items())]
+    return [
+        EnvVar(key=k, value=_mask_value(k, v))
+        for k, v in sorted(envs.items())
+    ]
 
 
 @router.put(
@@ -60,7 +83,10 @@ async def batch_save_envs(
             )
     cleaned = {k.strip(): v for k, v in body.items()}
     save_envs(cleaned)
-    return [EnvVar(key=k, value=v) for k, v in sorted(cleaned.items())]
+    return [
+        EnvVar(key=k, value=_mask_value(k, v))
+        for k, v in sorted(cleaned.items())
+    ]
 
 
 @router.delete(
@@ -77,4 +103,7 @@ async def delete_env(key: str) -> List[EnvVar]:
             detail=f"Env var '{key}' not found",
         )
     envs = delete_env_var(key)
-    return [EnvVar(key=k, value=v) for k, v in sorted(envs.items())]
+    return [
+        EnvVar(key=k, value=_mask_value(k, v))
+        for k, v in sorted(envs.items())
+    ]

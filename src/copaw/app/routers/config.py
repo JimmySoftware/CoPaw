@@ -77,6 +77,24 @@ async def list_channels(request: Request) -> dict:
         extra = getattr(channels_config, "__pydantic_extra__", None) or {}
         all_configs.update(extra)
 
+    # Sensitive field names that should be masked in channel configs
+    _sensitive_fields = frozenset({
+        "bot_token", "client_secret", "app_secret", "secret",
+        "access_token", "twilio_auth_token", "sk", "password",
+        "encrypt_key", "verification_token",
+    })
+
+    def _mask_channel_secrets(data: dict) -> dict:
+        """Mask sensitive fields in a channel config dict."""
+        masked = {}
+        for k, v in data.items():
+            if k in _sensitive_fields and v and isinstance(v, str):
+                visible = min(4, len(v))
+                masked[k] = v[:visible] + "******"
+            else:
+                masked[k] = v
+        return masked
+
     # Return all available channels (use default config if not saved)
     result = {}
     for key in available:
@@ -91,6 +109,7 @@ async def list_channels(request: Request) -> dict:
             channel_data = {"enabled": False, "bot_prefix": ""}
         if isinstance(channel_data, dict):
             channel_data["isBuiltin"] = key in BUILTIN_CHANNEL_KEYS
+            channel_data = _mask_channel_secrets(channel_data)
         result[key] = channel_data
 
     return result

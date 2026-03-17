@@ -158,7 +158,9 @@ export function RemoteProviderCard({
           <div className={styles.infoRow}>
             <span className={styles.infoLabel}>{t("models.apiKey")}:</span>
             {provider.api_key ? (
-              <span className={styles.infoValue}>{provider.api_key}</span>
+              <span className={styles.infoValue}>
+                {provider.api_key.includes("******") ? provider.api_key : provider.api_key.slice(0, 4) + "******"}
+              </span>
             ) : (
               <span className={styles.infoEmpty}>{t("models.notSet")}</span>
             )}

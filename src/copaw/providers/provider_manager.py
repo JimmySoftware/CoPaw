@@ -118,14 +118,7 @@ ANTHROPIC_MODELS: List[ModelInfo] = [
 GEMINI_MODELS: List[ModelInfo] = [
     ModelInfo(id="gemini-3.1-pro-preview", name="Gemini 3.1 Pro Preview"),
     ModelInfo(id="gemini-3-flash-preview", name="Gemini 3 Flash Preview"),
-    ModelInfo(
-        id="gemini-3.1-flash-lite-preview",
-        name="Gemini 3.1 Flash Lite Preview",
-    ),
-    ModelInfo(id="gemini-2.5-pro", name="Gemini 2.5 Pro"),
-    ModelInfo(id="gemini-2.5-flash", name="Gemini 2.5 Flash"),
-    ModelInfo(id="gemini-2.5-flash-lite", name="Gemini 2.5 Flash Lite"),
-    ModelInfo(id="gemini-2.0-flash", name="Gemini 2.0 Flash"),
+    ModelInfo(id="gemini-3.1-flash-lite-preview", name="Gemini 3.1 Flash Lite Preview"),
 ]
 
 PROVIDER_MODELSCOPE = OpenAIProvider(

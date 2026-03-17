@@ -43,11 +43,23 @@ MODELSCOPE_MODELS: List[ModelInfo] = [
 ]
 
 DASHSCOPE_MODELS: List[ModelInfo] = [
+    # Qwen 3.5 family
+    ModelInfo(id="qwen3.5-plus", name="Qwen3.5 Plus"),
+    ModelInfo(id="qwen3.5-flash", name="Qwen3.5 Flash"),
+    ModelInfo(id="qwen3.5-397b-a17b", name="Qwen3.5 397B-A17B"),
+    ModelInfo(id="qwen3.5-120b-a10b", name="Qwen3.5 120B-A10B"),
+    ModelInfo(id="qwen3.5-27b", name="Qwen3.5 27B"),
+    ModelInfo(id="qwen3.5-35b-a3b", name="Qwen3.5 35B-A3B"),
+    # Qwen 3 family
     ModelInfo(id="qwen3-max", name="Qwen3 Max"),
-    ModelInfo(
-        id="qwen3-235b-a22b-thinking-2507",
-        name="Qwen3 235B A22B Thinking",
-    ),
+    ModelInfo(id="qwen3-coder-plus", name="Qwen3 Coder Plus"),
+    ModelInfo(id="qwen3-coder-flash", name="Qwen3 Coder Flash"),
+    ModelInfo(id="qwen3-235b-a22b", name="Qwen3 235B-A22B"),
+    ModelInfo(id="qwen3-32b", name="Qwen3 32B"),
+    # Qwen general aliases
+    ModelInfo(id="qwen-plus", name="Qwen Plus"),
+    ModelInfo(id="qwen-turbo", name="Qwen Turbo"),
+    ModelInfo(id="qwen-flash", name="Qwen Flash"),
     ModelInfo(id="deepseek-v3.2", name="DeepSeek-V3.2"),
 ]
 
@@ -124,10 +136,10 @@ PROVIDER_MODELSCOPE = OpenAIProvider(
 PROVIDER_DASHSCOPE = OpenAIProvider(
     id="dashscope",
     name="DashScope",
-    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
     api_key_prefix="sk",
     models=DASHSCOPE_MODELS,
-    freeze_url=True,
+    freeze_url=False,
 )
 
 PROVIDER_ALIYUN_CODINGPLAN = OpenAIProvider(

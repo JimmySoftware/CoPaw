@@ -109,7 +109,11 @@ DEEPSEEK_MODELS: List[ModelInfo] = [
     ModelInfo(id="deepseek-reasoner", name="DeepSeek Reasoner"),
 ]
 
-ANTHROPIC_MODELS: List[ModelInfo] = []
+ANTHROPIC_MODELS: List[ModelInfo] = [
+    ModelInfo(id="claude-opus-4-6", name="Claude Opus 4.6"),
+    ModelInfo(id="claude-sonnet-4-6", name="Claude Sonnet 4.6"),
+    ModelInfo(id="claude-haiku-4-5", name="Claude Haiku 4.5"),
+]
 
 GEMINI_MODELS: List[ModelInfo] = [
     ModelInfo(id="gemini-3.1-pro-preview", name="Gemini 3.1 Pro Preview"),

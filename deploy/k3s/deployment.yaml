@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: copaw
+  namespace: copaw
+  labels:
+    app: copaw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: copaw
+  template:
+    metadata:
+      labels:
+        app: copaw
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: vm0
+      containers:
+        - name: copaw
+          image: registry.artech.cloud/copaw:latest
+          ports:
+            - containerPort: 8088
+              protocol: TCP
+          env:
+            - name: COPAW_PORT
+              value: "8088"
+            - name: COPAW_RUNNING_IN_CONTAINER
+              value: "1"
+            - name: COPAW_CORS_ORIGINS
+              value: "https://copaw.artech.cloud"
+            - name: COPAW_AUTH_ENABLED
+              value: "true"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: copaw-api-keys
+                  key: OPENAI_API_KEY
+          volumeMounts:
+            - name: copaw-data
+              mountPath: /app/working
+            - name: copaw-secrets
+              mountPath: /app/working.secret
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8088
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8088
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+      volumes:
+        - name: copaw-data
+          persistentVolumeClaim:
+            claimName: copaw-data
+        - name: copaw-secrets
+          persistentVolumeClaim:
+            claimName: copaw-secrets

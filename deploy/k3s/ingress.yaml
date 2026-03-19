@@ -1,0 +1,33 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: copaw-ingress
+  namespace: copaw
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`copaw.artech.cloud`)
+      services:
+        - name: copaw
+          port: 8088
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: copaw-http-redirect
+  namespace: copaw
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`copaw.artech.cloud`)
+      middlewares:
+        - name: redirect-to-https
+          namespace: k3s-ai-manager
+      services:
+        - name: copaw
+          port: 8088

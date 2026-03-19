@@ -75,17 +75,12 @@ ALIYUN_CODINGPLAN_MODELS: List[ModelInfo] = [
 ]
 
 OPENAI_MODELS: List[ModelInfo] = [
-    ModelInfo(id="gpt-5.2", name="GPT-5.2"),
-    ModelInfo(id="gpt-5", name="GPT-5"),
-    ModelInfo(id="gpt-5-mini", name="GPT-5 Mini"),
-    ModelInfo(id="gpt-5-nano", name="GPT-5 Nano"),
-    ModelInfo(id="gpt-4.1", name="GPT-4.1"),
-    ModelInfo(id="gpt-4.1-mini", name="GPT-4.1 Mini"),
     ModelInfo(id="gpt-4.1-nano", name="GPT-4.1 Nano"),
-    ModelInfo(id="o3", name="o3"),
-    ModelInfo(id="o4-mini", name="o4-mini"),
-    ModelInfo(id="gpt-4o", name="GPT-4o"),
-    ModelInfo(id="gpt-4o-mini", name="GPT-4o Mini"),
+    ModelInfo(id="gpt-4.1-mini", name="GPT-4.1 Mini"),
+    ModelInfo(id="gpt-4.1", name="GPT-4.1"),
+    ModelInfo(id="gpt-5.4-nano", name="GPT-5.4 Nano"),
+    ModelInfo(id="gpt-5.4-mini", name="GPT-5.4 Mini"),
+    ModelInfo(id="gpt-5.4", name="GPT-5.4"),
 ]
 
 AZURE_OPENAI_MODELS: List[ModelInfo] = [
@@ -110,15 +105,15 @@ DEEPSEEK_MODELS: List[ModelInfo] = [
 ]
 
 ANTHROPIC_MODELS: List[ModelInfo] = [
-    ModelInfo(id="claude-opus-4-6", name="Claude Opus 4.6"),
-    ModelInfo(id="claude-sonnet-4-6", name="Claude Sonnet 4.6"),
     ModelInfo(id="claude-haiku-4-5", name="Claude Haiku 4.5"),
+    ModelInfo(id="claude-sonnet-4-6", name="Claude Sonnet 4.6"),
+    ModelInfo(id="claude-opus-4-6", name="Claude Opus 4.6"),
 ]
 
 GEMINI_MODELS: List[ModelInfo] = [
-    ModelInfo(id="gemini-3.1-pro-preview", name="Gemini 3.1 Pro Preview"),
-    ModelInfo(id="gemini-3-flash-preview", name="Gemini 3 Flash Preview"),
     ModelInfo(id="gemini-3.1-flash-lite-preview", name="Gemini 3.1 Flash Lite Preview"),
+    ModelInfo(id="gemini-3-flash-preview", name="Gemini 3 Flash Preview"),
+    ModelInfo(id="gemini-3.1-pro-preview", name="Gemini 3.1 Pro Preview"),
 ]
 
 PROVIDER_MODELSCOPE = OpenAIProvider(
